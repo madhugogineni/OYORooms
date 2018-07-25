@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">OYORooms</string>
+    <string name="oyo">OYO</string>
+    <string name="wifi">Free Wifi</string>
+    <string name="rooms">AC Rooms</string>
+    <string name="book_now_pay_later">Book Now Pay Later</string>
+    <string name="clean_and_hygienic_rooms">Clean and Hygienic Rooms</string>
+    <string name="get_money">GET Rs500 OYO Money on sign up</string>
+    <string name="get_started">GET STARTED</string>
+
+    <string name="title_activity_try">Try</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>
