@@ -7,8 +7,9 @@
     <string name="clean_and_hygienic_rooms">Clean and Hygienic Rooms</string>
     <string name="get_money">GET Rs500 OYO Money on sign up</string>
     <string name="get_started">GET STARTED</string>
-
+    <string name="search_button">Search for Hotel,City or Location</string>
     <string name="title_activity_try">Try</string>
+    <string name="wish">Good Morning</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
