@@ -5,19 +5,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<String> values;
-
+    private List<Integer> icons;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView txtHeader;
+        public ImageView imageView;
         //public TextView txtFooter;
         public View layout;
 
@@ -25,6 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             super(v);
             layout = v;
             txtHeader = (TextView) v.findViewById(R.id.text_list_item);
+            imageView = (ImageView)v.findViewById(R.id.city_icon);
         }
     }
 
@@ -35,11 +38,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public void remove(int position) {
         values.remove(position);
+        icons.remove(position);
         notifyItemRemoved(position);
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(List<String> myDataset) {
+    public MyAdapter(List<String> myDataset,List<Integer> cityImages) {
+        icons = cityImages;
         values = myDataset;
     }
 
@@ -63,6 +68,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         // - replace the contents of the view with that element
         final String name = values.get(position);
         holder.txtHeader.setText(name);
+        holder.imageView.setImageResource(icons.get(position));
         holder.txtHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

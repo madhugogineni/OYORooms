@@ -37,11 +37,14 @@ public class HomeActivity extends AppCompatActivity {
         myRecyclerViewLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
         myRecyclerView.setLayoutManager(myRecyclerViewLayoutManager);
         List<String> input = new ArrayList<String>();
+        List<Integer> icons =  new ArrayList<Integer>();
         String[] cities = {"Banglore","Coorg","Mysore","Chennai","Delhi","Gurgoan","Hyderabad","Kolkata","Mumbai","Noida","Pune","All Cities"};
+        int[] cityImages ={R.drawable.banglore,R.drawable.coorg,R.drawable.mysore,R.drawable.chennai,R.drawable.delhi,R.drawable.gurgoan,R.drawable.hyderabad,R.drawable.kolkata,R.drawable.mumbai,R.drawable.noida,R.drawable.pune,R.drawable.allcities};
         for(int i=0;i<cities.length;i++) {
             input.add(cities[i]);
+            icons.add(cityImages[i]);
         }
-        myRecyclerViewAdapter = new MyAdapter(input);
+        myRecyclerViewAdapter = new MyAdapter(input,icons);
         myRecyclerView.setAdapter(myRecyclerViewAdapter);
     }
 }
