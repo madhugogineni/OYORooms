@@ -1,7 +1,17 @@
 package com.example.admin1.oyorooms;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +23,12 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<String> values;
     private List<Integer> icons;
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+    private Context context;
+    Intent intent;
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         public TextView txtHeader;
         public ImageView imageView;
-        //public TextView txtFooter;
         public View layout;
 
         public ViewHolder(View v) {
@@ -28,6 +36,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             layout = v;
             txtHeader = (TextView) v.findViewById(R.id.text_list_item);
             imageView = (ImageView)v.findViewById(R.id.city_icon);
+            context = v.getContext();
         }
     }
 
@@ -42,43 +51,62 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         notifyItemRemoved(position);
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
     public MyAdapter(List<String> myDataset,List<Integer> cityImages) {
         icons = cityImages;
         values = myDataset;
+
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public MyAdapter.ViewHolder onCreateViewHolder(final ViewGroup parent,
                                                    int viewType) {
-        // create a new view
-        LayoutInflater inflater = LayoutInflater.from(
-                parent.getContext());
+
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.list_item, parent, false);
-        // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
+
         return vh;
     }
-
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         final String name = values.get(position);
         holder.txtHeader.setText(name);
-        holder.imageView.setImageResource(icons.get(position));
-        holder.txtHeader.setOnClickListener(new View.OnClickListener() {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),icons.get(position));
+        Bitmap bitmap1 = Bitmap.createScaledBitmap(bitmap,100,100,true);
+        Bitmap finalBitmap = getRoundedBitmap(bitmap1,100);
+        holder.imageView.setImageBitmap(finalBitmap);
+        intent = new Intent(context,HotelsDisplay.class);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remove(position);
+                Log.d("Msg","position is: "+position+" "+values.get(position));
+                intent.putExtra("cityName",values.get(position));
+                context.startActivity(intent);
             }
         });
 
     }
+    public Bitmap getRoundedBitmap(Bitmap bitmap1,int pixel) {
+        Bitmap finalBitmap=null;
+        try {
+            finalBitmap = Bitmap.createBitmap(100,100, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(finalBitmap);
 
-    // Return the size of your dataset (invoked by the layout manager)
+            int color = 0xff424242;
+            Paint paint = new Paint();
+            Rect rect = new Rect(0, 0, 70, 70);
+            paint.setAntiAlias(true);
+            canvas.drawARGB(0, 0, 0, 0);
+            paint.setColor(color);
+            canvas.drawCircle(50,50,50, paint);
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+            canvas.drawBitmap(bitmap1, rect, rect, paint);
+
+        } catch (NullPointerException e) {
+        } catch (OutOfMemoryError o) {
+        }
+        return finalBitmap;
+    }
     @Override
     public int getItemCount() {
         return values.size();
